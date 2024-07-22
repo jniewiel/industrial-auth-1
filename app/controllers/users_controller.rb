@@ -14,6 +14,9 @@ class UsersController < ApplicationController
   def show
   end
 
+  def show_photos
+  end
+
   def new
     @user = User.new
     authorize(@user)
