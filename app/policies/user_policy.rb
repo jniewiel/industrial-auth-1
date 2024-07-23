@@ -17,7 +17,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show_photos?
-    current_user == @user || !@user.private? || current_user.leaders.include?(@user)
+    current_user == user || !user.private? || current_user.leaders.include?(user)
   end
 
   def update?
