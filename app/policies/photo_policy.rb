@@ -34,8 +34,10 @@ class PhotoPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.all.select do |photo|
-        photo.owner == user || !photo.owner.private? || photo.owner.followers.include?(user)
+      if user.admin?
+        scope.all
+      else
+        scope.joins(:owner).left_outer_joins(owner: :followers).where("photos.owner_id = :user_id OR owners.private = :false OR followers.user_id = :user_id", { :user_id => user.id, :false => false }).distinct
       end
     end
   end
